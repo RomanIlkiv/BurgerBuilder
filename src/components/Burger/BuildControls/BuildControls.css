@@ -1,0 +1,27 @@
+.BuildControls {
+    width: 100%;
+    background-color: #cf8f2e;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    box-shadow: 0 2px 1px #ccc;
+    margin: auto;
+    padding: 10px 0;
+}
+
+.OrderNow {
+    margin-top: 15px;
+    background-color: lawngreen;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    width: 130px;
+    height: 45px;
+    font-size: 15px;
+    color: white;
+}
+
+.OrderNow:disabled {
+    background-color: #7E7365;
+    cursor: not-allowed;
+}
