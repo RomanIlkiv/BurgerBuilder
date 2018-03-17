@@ -7,7 +7,7 @@ const navigationItems = (props) => (
       <a href="/" className={true ? classes.active : null}>Burger Builder</a>
     </li>
     <li className={classes.NavigationItem}>
-      <a href="/" className={false ? classes.active : null}>Checkout</a>
+      <a href="/orders" className={false ? classes.active : null}>Orders</a>
     </li>
   </ul>
 );

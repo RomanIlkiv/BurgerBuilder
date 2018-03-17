@@ -4,6 +4,7 @@ import Burger from '../../components/Burger/Burger';
 import BurgerControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummery from '../../components/Burger/OrderSummery/OrderSummery';
+import axios from '../../axios-order';
 
 const INGREDIENT_PRICES = {
   salad: 0.5,
@@ -28,6 +29,16 @@ class BurgerBuilder extends Component {
     purchasable: false,
     purchasing: false
   };
+
+  componentDidMount() {
+    console.log(this.props);
+    axios.get('/ingredients.json')
+      .then(response => {
+        this.setState({
+          ingredients: response.data
+        });
+      });
+  }
 
   updatePurchaseState(ingredients) {
     const sum = Object.keys(ingredients)
@@ -88,7 +99,15 @@ class BurgerBuilder extends Component {
   };
 
   purchaseContinueHandler = () => {
-    alert('You continue');
+    const queryParams = [];
+    for (let i in this.state.ingredients) {
+      queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+    }
+    queryParams.push('price=' + this.state.totalPrice);
+    this.props.history.push({
+      pathname: '/checkout',
+      search: '?' + queryParams.join('&')
+    });
   };
 
   render() {
