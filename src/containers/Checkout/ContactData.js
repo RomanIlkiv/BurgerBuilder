@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+
 import Button from '../../components/UI/Button/Button';
 import classes from './ContactData.css';
 import axios from '../../axios-order';
+import * as actions from '../../store/actions/order';
 
 import Input from '../../components/UI/Input/Input';
 
@@ -76,7 +79,7 @@ class ContactData extends Component {
             {value: 'cheapest', displayedValue: 'cheapest'}
           ]
         },
-        value: ''
+        value: 'fastest'
       }
     }
   };
@@ -88,13 +91,12 @@ class ContactData extends Component {
       formData[formID] = this.state.orderForm[formID].value;
     }
     const order = {
-      ingredients: this.props.ingredients,
-      price: this.props.price,
-      orderData: formData
+        ingredients: this.props.ings,
+        price: this.props.price,
+        orderData: formData,
+        userId: this.props.userId
     };
-    axios.post('/orders.json', order)
-     .then(response => console.log(response))
-     .catch(error => console.log(error));
+    this.props.onOrderBurger(order, this.props.token);
   };
 
   checkValidity(value, rules) {
@@ -150,4 +152,20 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+    return {
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        loading: state.order.loading,
+        token: state.auth.token,
+        userId: state.auth.userId
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onOrderBurger: (orderData, token) => dispatch(actions.purchaseBurger(orderData, token))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);

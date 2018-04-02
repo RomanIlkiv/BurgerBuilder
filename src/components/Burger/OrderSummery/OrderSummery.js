@@ -8,12 +8,15 @@ class OrderSummery extends Component {
   }
 
   render () {
-    const ingredientSummery = Object.keys(this.props.ingredients)
-      .map(igKey => {
-        return (<li key={igKey}>
-          <span style={{textTransform: 'capitalize'}}>{igKey}</span>: {this.props.ingredients[igKey]}
-        </li>);
-      });
+    var ingredientSummery = null;
+    if(this.props.ingredients) {
+        ingredientSummery = Object.keys(this.props.ingredients)
+            .map(igKey => {
+                return (<li key={igKey}>
+                  <span style={{textTransform: 'capitalize'}}>{igKey}</span>: {this.props.ingredients[igKey]}
+                </li>);
+            });
+    }
 
     return (<Auxs>
       <p>Your order:</p>
